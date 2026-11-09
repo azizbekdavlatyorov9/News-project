@@ -1,23 +1,20 @@
-const { ObjectId } = require("mongodb");
 
-const mongoose = rqeuire("mongoose");
+const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
-    _id: {
-        type: ObjectId,
-        required: true,
-    },
     name: {
         type: String,
         required: [true, "Foydalanuvchi nomi kiritilishi shart"],
         minlength: 2,
-        maxlength: 50
+        maxlength: 50,
+        trim: true
     },
     email: {
         type: String,
         required: [true, "Foydalanuvchi emaili kiritilishi shart"],
         unique: true,
         lowercase: true,
+        trim: true
     },
     password: {
         type: String,
@@ -36,28 +33,25 @@ const userSchema = new mongoose.Schema({
     blockReason: {
         type: String,
         maxlength: 300,
-        required: [true, "Bloklangan sabab kiritilishi shart"]
+        default: null
     },
     blockedAt: {
         type: Date,
         default: null
     },
     blockedBy: {
-        type: ObjectId,
-        default: null
+        type: mongoose.Schema.Types.ObjectId,
+        default: null,
+        ref: "User"
     },
     tokenVersion: {
         type: Number,
         default: 0
     },
-    createdAt: {
-        type: Date,
-        default: Date.now,
-        timestamps: true
-    },
-    updatedAt: {
-        type: Date,
-        default: Date.now,
+},
+    {
         timestamps: true
     }
-})
+)
+
+module.exports = mongoose.model("User", userSchema);
