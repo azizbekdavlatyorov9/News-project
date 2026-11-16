@@ -6,7 +6,7 @@ const User = require("../Schema/users.schema");
 const Register = async (req, res, next) => {
     const { name, email, password } = req.body;
 
-    if (!name || !email || !password) {
+    if (!name || !email || !password ) {
         return res.status(400).json({ message: " Name, email and password are required" });
     }
     try {
@@ -21,7 +21,7 @@ const Register = async (req, res, next) => {
             id: v4(),
             name,
             email,
-            password: hashedPassword
+            password: hashedPassword,
         });
 
         await user.save();
@@ -47,7 +47,7 @@ const Login = async (req, res, next) => {
             )
         }
 
-        const checkPassword = await bcrypt.compare(password, foundedUser.password);
+        const checkPassword = await bcrypt.compare(password, foundedEmail.password);
 
         if (checkPassword) {
             const payload = { id: foundedEmail.id, email: foundedEmail.email };

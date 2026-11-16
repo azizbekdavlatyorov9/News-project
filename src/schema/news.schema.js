@@ -45,10 +45,10 @@ const newsSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        default: PENDING,
         enum: {
-            values: [PENDING | PUBLISHED | REJECTED]
-        }
+            values: ["PENDING" | "PUBLISHED" | "REJECTED"]
+        },
+        default: "PENDING"
     },
     rejectReason: {
         type: String,

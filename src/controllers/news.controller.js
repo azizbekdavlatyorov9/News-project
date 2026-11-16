@@ -38,7 +38,7 @@ const addNews = async (req, res, next) => {
         } = req.body
 
         let generatedSlug = slugify(title, { lower: true, strict: true })
-        const existingNews = await News.findOne({ slug: generatedSlug })
+        const existingNews = await newsSchema.findOne({ slug: generatedSlug })
         if (existingNews) {
             const randomCode = Math.random().toString(36).substring(2, 6);
             generatedSlug = `${generatedSlug}-${randomCode}`
@@ -50,7 +50,7 @@ const addNews = async (req, res, next) => {
 
         const newNews = await newsSchema.create({
             title,
-            description,
+            description, 
             slug: generatedSlug,
             images,
             category,
@@ -59,18 +59,18 @@ const addNews = async (req, res, next) => {
             status,
             publishedAt
         })
-        res.status(201).json("Added new book")
+        res.status(201).json({ message: "Added new" })
     } catch (error) {
         next(error)
     }
 }
-const getOneNews = async (req, res, next) => {
+const getOneNew = async (req, res, next) => {
     try {
         const { id } = req.params
         const foundedNews = await newsSchema.findById(id)
 
         if (!foundedNews) {
-            throw CustomErrorHandler.NotFound('News not found')
+            throw CustomErrorHandler.NotFound('New not found')
         }
         res.status(200).json({ data: foundedNews })
     } catch (error) {
@@ -90,28 +90,47 @@ const updateNews = async (req, res, next) => {
 
         const foundedNews = await newsSchema.findById(id)
         if (!foundedNews) {
-            throw new CustomErrorHandler.NotFound("News not found")
+            throw new CustomErrorHandler.NotFound("New not found")
         }
-        const newNews = await newsSchema.updateOne({_id:id}{
+        const newNews = await newsSchema.updateOne({ _id: id }, {
             title,
             description,
             slug: generatedSlug,
             images,
             category,
-            tags,   
+            tags,
             author: req.user._id,
             status,
             publishedAt
         })
-        res.status(201).json("Updated book")
+        res.status(201).json({ message: "Update new" })
     } catch (error) {
         next(error)
     }
 }
 const deleteNews = async (req, res, next) => {
     try {
-        
+        const { id } = req.params
+
+        const foundedNews = await newsSchema.findById(id)
+
+        if (!foundedNews) {
+            throw CustomErrorHandler.NotFound("New not found")
+        }
+
+        await newsSchema.findByIdAndDelete({ _id: id })
+
+        res.status(200).json({ message: "Delete new" })
     } catch (error) {
         next(error)
     }
+}
+
+module.exports = {
+    getAllNews,
+    getOneNew,
+    addNews,
+    updateNews,
+    deleteNews,
+    search
 }
