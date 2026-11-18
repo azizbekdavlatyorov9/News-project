@@ -46,7 +46,7 @@ const newsSchema = new mongoose.Schema({
     status: {
         type: String,
         enum: {
-            values: ["PENDING" | "PUBLISHED" | "REJECTED"]
+            values: ["PENDING","PUBLISHED","REJECTED"]
         },
         default: "PENDING"
     },
