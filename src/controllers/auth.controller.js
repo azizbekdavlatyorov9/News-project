@@ -181,7 +181,7 @@ const changePassword = async (req, res, next) => {
 };
 
 module.exports = {
-    Register,
+    Register, 
     Login,
     Logout,
     Refresh,

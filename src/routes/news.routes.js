@@ -8,7 +8,7 @@ newsRouter.get("/get_all_news", getAllNews)
 newsRouter.get("/get_one_new/:id", getOneNew)
 newsRouter.get("/new_search", search)
 newsRouter.post("/add_news", authenticate, addNews)
-newsRouter.put("/update_new/:id", updateNews)
-newsRouter.delete("/delete_new/:id", deleteNews)
+newsRouter.put("/update_new/:id", authenticate, updateNews)
+newsRouter.delete("/delete_new/:id", authenticate, deleteNews)
 
 module.exports = newsRouter 
