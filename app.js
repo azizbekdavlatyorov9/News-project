@@ -5,6 +5,7 @@ const authRouter = require("./src/routes/auth.routes");
 require("dotenv").config();
 const path = require('path');
 const newsRouter = require("./src/routes/news.routes");
+const TagsRouter = require("./src/routes/tags.routes");
 
 const app = express();
 
@@ -13,6 +14,7 @@ app.use(cors());
 app.use(express.json());
 app.use(authRouter)
 app.use(newsRouter)
+app.use(TagsRouter)
 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
 
